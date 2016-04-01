@@ -71,8 +71,8 @@ private[stats] class MetricsBucketedHistogram(
       // we give 1 second of wiggle room so that a slightly early request
       // will still trigger a roll.
       if (Time.now >= nextSnapAfter.get - 1.second) {
-        // if nextSnapAfter have a datetime older than (now - latchPeriod), update it next minutes.
-        if (nextSnapAfter.get + latchPeriod > Time.now) {
+        // if nextSnapAfter have a datetime older than (latchPeriod*2) ago, update it next minutes.
+        if (nextSnapAfter.get + latchPeriod*2 > Time.now) {
           nextSnapAfter.set(nextSnapAfter.get + latchPeriod)
         } else {
           nextSnapAfter.set(JsonExporter.startOfNextMinute)
